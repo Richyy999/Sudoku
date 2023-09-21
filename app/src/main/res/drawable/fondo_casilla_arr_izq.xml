@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_selected="true">
+        <layer-list>
+            <item>
+                <color android:color="@color/borde_gordo" />
+            </item>
+
+            <item android:start="2dp" android:top="2dp">
+                <color android:color="@color/borde_fino_pulsado" />
+            </item>
+
+            <item android:bottom="1dp" android:end="1dp" android:start="2dp" android:top="2dp">
+                <color android:color="@color/fondo_casilla" />
+            </item>
+
+            <item android:bottom="1dp" android:end="1dp" android:start="2dp" android:top="2dp">
+                <color android:color="@color/fondo_casilla_seleccionado" />
+            </item>
+        </layer-list>
+    </item>
+
+    <item android:state_activated="true">
+        <layer-list>
+            <item>
+                <color android:color="@color/borde_gordo" />
+            </item>
+
+            <item android:start="2dp" android:top="2dp">
+                <color android:color="@color/borde_fino_marcado" />
+            </item>
+
+            <item android:bottom="1dp" android:end="1dp" android:start="2dp" android:top="2dp">
+                <color android:color="@color/fondo_casilla_marcado" />
+            </item>
+        </layer-list>
+    </item>
+
+    <item android:state_pressed="true">
+        <layer-list>
+            <item>
+                <color android:color="@color/borde_gordo" />
+            </item>
+
+            <item android:start="2dp" android:top="2dp">
+                <color android:color="@color/borde_fino_pulsado" />
+            </item>
+
+            <item android:bottom="1dp" android:end="1dp" android:start="2dp" android:top="2dp">
+                <color android:color="@color/fondo_casilla_pulsado" />
+            </item>
+        </layer-list>
+    </item>
+
+    <item>
+        <layer-list>
+            <item>
+                <color android:color="@color/borde_gordo" />
+            </item>
+
+            <item android:start="2dp" android:top="2dp">
+                <color android:color="@color/borde_fino" />
+            </item>
+
+            <item android:bottom="1dp" android:end="1dp" android:start="2dp" android:top="2dp">
+                <color android:color="@color/fondo_casilla" />
+            </item>
+        </layer-list>
+    </item>
+</selector>

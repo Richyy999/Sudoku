@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="negro">#000000</color>
+    <color name="blanco">#FFFFFF</color>
+    <color name="fondo_casilla">#FDFDFD</color>
+    <color name="fondo_casilla_pulsado">#EBECF0</color>
+    <color name="fondo_casilla_seleccionado">#961D4EFD</color>
+    <color name="fondo_casilla_marcado">#C5DCFF</color>
+    <color name="borde_gordo">#101284</color>
+    <color name="borde_fino">#A8AFCB</color>
+    <color name="borde_fino_pulsado">#9499AB</color>
+    <color name="borde_fino_marcado">#AAF6FF</color>
+    <color name="texto_azul">#0D10D7</color>
+    <color name="texto_azul_oscuro">#101284</color>
+    <color name="texto_azul_desactivado">#9499AB</color>
+</resources>

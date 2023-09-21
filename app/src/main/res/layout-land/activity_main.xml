@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".vista.MainActivity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <GridLayout
+        android:id="@+id/tablero"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_margin="16dp"
+        android:columnCount="9"
+        android:padding="1dp"
+        android:rowCount="9"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/fondo_tablero"
+        app:layout_constraintBottom_toBottomOf="@+id/tablero"
+        app:layout_constraintEnd_toEndOf="@+id/tablero"
+        app:layout_constraintStart_toStartOf="@+id/tablero"
+        app:layout_constraintTop_toTopOf="@+id/tablero" />
+
+    <TextView
+        android:id="@+id/crono"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/mooli_regular"
+        android:text="00:00"
+        android:textColor="@color/texto_azul"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tablero"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/layoutBotones"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/layoutNumeros"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tablero">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            style="@style/layout_boton_horizontal"
+            android:id="@+id/btnDeshacer">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/iconoBotonDeshacer"
+                    style="@style/imagen_boton_horizontal"
+                    android:contentDescription="@string/desc_icono_deshacer"
+                    android:src="@drawable/deshacer"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    style="@style/texto_boton"
+                    android:text="@string/deshacer"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/iconoBotonDeshacer" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            style="@style/layout_boton_horizontal"
+            android:id="@+id/btnRehacer">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/iconoBotonRehacer"
+                    style="@style/imagen_boton_horizontal"
+                    android:contentDescription="@string/desc_icono_rehacer"
+                    android:src="@drawable/rehacer"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    style="@style/texto_boton"
+                    android:text="@string/rehacer"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/iconoBotonRehacer" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            style="@style/layout_boton_horizontal"
+            android:id="@+id/btnBorrar">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/iconoBotonBorrar"
+                    style="@style/imagen_boton_horizontal"
+                    android:contentDescription="@string/desc_icono_borrar"
+                    android:src="@drawable/borrar"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    style="@style/texto_boton"
+                    android:text="@string/borrar"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/iconoBotonBorrar" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            style="@style/layout_boton_horizontal"
+            android:id="@+id/btnPista">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/iconoBotonPista"
+                    style="@style/imagen_boton_horizontal"
+                    android:contentDescription="@string/desc_icono_pista"
+                    android:src="@drawable/pista"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    style="@style/texto_boton"
+                    android:text="@string/pista"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/iconoBotonPista" />
+
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutNumeros"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tablero">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/uno"
+                style="@style/botones_numeros_horizontal"
+                android:text="@string/uno" />
+
+            <TextView
+                android:id="@+id/dos"
+                style="@style/botones_numeros_horizontal"
+                android:text="@string/dos" />
+
+            <TextView
+                android:id="@+id/tres"
+                style="@style/botones_numeros_horizontal"
+                android:text="@string/tres" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/cuatro"
+                style="@style/botones_numeros_horizontal"
+                android:text="@string/cuatro" />
+
+            <TextView
+                android:id="@+id/cinco"
+                style="@style/botones_numeros_horizontal"
+                android:text="@string/cinco" />
+
+            <TextView
+                android:id="@+id/seis"
+                style="@style/botones_numeros_horizontal"
+                android:text="@string/seis" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/siete"
+                style="@style/botones_numeros_horizontal"
+                android:text="@string/siete" />
+
+            <TextView
+                android:id="@+id/ocho"
+                style="@style/botones_numeros_horizontal"
+                android:text="@string/ocho" />
+
+            <TextView
+                android:id="@+id/nueve"
+                style="@style/botones_numeros_horizontal"
+                android:text="@string/nueve" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

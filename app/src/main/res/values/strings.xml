@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Sudoku</string>
+    <string name="uno">1</string>
+    <string name="dos">2</string>
+    <string name="tres">3</string>
+    <string name="cuatro">4</string>
+    <string name="cinco">5</string>
+    <string name="seis">6</string>
+    <string name="siete">7</string>
+    <string name="ocho">8</string>
+    <string name="nueve">9</string>
+    <string name="desc_icono_deshacer">icono de deshacer</string>
+    <string name="deshacer">Deshacer</string>
+    <string name="rehacer">Rehacer</string>
+    <string name="desc_icono_rehacer">Icono de rehacer</string>
+    <string name="borrar">Borrar</string>
+    <string name="pista">Pista</string>
+    <string name="desc_icono_pista">Icono de pista</string>
+    <string name="desc_icono_borrar">Icono de borrar</string>
+</resources>

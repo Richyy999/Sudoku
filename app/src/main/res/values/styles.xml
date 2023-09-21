@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="botones_numeros">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/mooli_regular</item>
+        <item name="android:background">@drawable/fondo_boton</item>
+        <item name="android:clickable">true</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textColor">@color/texto_azul</item>
+        <item name="android:textSize">40sp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="botones_numeros_horizontal" parent="botones_numeros">
+        <item name="android:layout_width">72dp</item>
+        <item name="android:layout_height">64dp</item>
+        <item name="android:layout_weight">0</item>
+    </style>
+
+    <style name="layout_boton">
+        <item name="android:layout_width">76dp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:layout_marginStart">4dp</item>
+        <item name="android:layout_marginEnd">4dp</item>
+        <item name="android:background">@drawable/fondo_boton</item>
+        <item name="android:layout_height">76dp</item>
+    </style>
+
+    <style name="layout_boton_horizontal" parent="layout_boton">
+        <item name="android:layout_width">64dp</item>
+        <item name="android:layout_height">64dp</item>
+    </style>
+
+    <style name="imagen_boton">
+        <item name="android:layout_width">30dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+
+    <style name="imagen_boton_horizontal" parent="imagen_boton">
+        <item name="android:layout_width">25dp</item>
+        <item name="android:layout_height">25dp</item>
+    </style>
+
+    <style name="texto_boton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/mooli_regular</item>
+        <item name="android:textColor">@color/texto_azul_oscuro</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+</resources>
