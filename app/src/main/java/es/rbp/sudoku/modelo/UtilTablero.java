@@ -9,7 +9,7 @@ import java.util.Set;
 import es.rbp.sudoku.R;
 import es.rbp.sudoku.entidad.Sudoku;
 
-public class Util {
+public class UtilTablero {
 
     public static int getFondoCasilla(int x, int y) {
         int coordenadaX = x % 3;
@@ -189,6 +189,119 @@ public class Util {
         }
 
         return numerosEscritos;
+    }
+
+    public static Map<Integer, Boolean> contarNumerosPosibles(TextView[][] casillas, Set<TextView> casillasSeleccionadas) {
+        Map<Integer, Boolean> numerosPosibles = new HashMap<>();
+        numerosPosibles.put(R.id.uno, true);
+        numerosPosibles.put(R.id.dos, true);
+        numerosPosibles.put(R.id.tres, true);
+        numerosPosibles.put(R.id.cuatro, true);
+        numerosPosibles.put(R.id.cinco, true);
+        numerosPosibles.put(R.id.seis, true);
+        numerosPosibles.put(R.id.siete, true);
+        numerosPosibles.put(R.id.ocho, true);
+        numerosPosibles.put(R.id.nueve, true);
+
+        for (int y = 0; y < Sudoku.TAMANO_TABLERO; y++) {
+            for (int x = 0; x < Sudoku.TAMANO_TABLERO; x++) {
+                TextView casilla = casillas[y][x];
+                if (casillasSeleccionadas.contains(casilla)) {
+                    contarFila(casillas, y, numerosPosibles);
+                    contarColumna(casillas, x, numerosPosibles);
+                    contarCuadrante(casillas, x, y, numerosPosibles);
+                }
+            }
+        }
+
+        return numerosPosibles;
+    }
+
+    private static void contarFila(TextView[][] casillas, int y, Map<Integer, Boolean> numerosPosibles) {
+        for (int x = 0; x < Sudoku.TAMANO_TABLERO; x++) {
+            String numero = casillas[y][x].getText().toString();
+            if (!Sudoku.VACIO.equals(numero)) {
+                int id = getBotonNumero(numero);
+                numerosPosibles.put(id, false);
+            }
+        }
+    }
+
+    private static void contarColumna(TextView[][] casillas, int x, Map<Integer, Boolean> numerosPosibles) {
+        for (int y = 0; y < Sudoku.TAMANO_TABLERO; y++) {
+            String numero = casillas[y][x].getText().toString();
+            if (!Sudoku.VACIO.equals(numero)) {
+                int id = getBotonNumero(numero);
+                numerosPosibles.put(id, false);
+            }
+        }
+    }
+
+    private static void contarCuadrante(TextView[][] casillas, int x, int y, Map<Integer, Boolean> numerosPosibles) {
+        if (x < 3 && y < 3)
+            contarCuadranteIndividual(casillas, 0, 0, numerosPosibles);
+        else if (x < 6 && y < 3)
+            contarCuadranteIndividual(casillas, 3, 0, numerosPosibles);
+        else if (x < 9 && y < 3)
+            contarCuadranteIndividual(casillas, 6, 0, numerosPosibles);
+        else if (x < 3 && y < 6)
+            contarCuadranteIndividual(casillas, 0, 3, numerosPosibles);
+        else if (x < 6 && y < 6)
+            contarCuadranteIndividual(casillas, 3, 3, numerosPosibles);
+        else if (x < 9 && y < 6)
+            contarCuadranteIndividual(casillas, 6, 3, numerosPosibles);
+        else if (x < 3 && y < 9)
+            contarCuadranteIndividual(casillas, 0, 6, numerosPosibles);
+        else if (x < 6 && y < 9)
+            contarCuadranteIndividual(casillas, 3, 6, numerosPosibles);
+        else if (x < 9 && y < 9)
+            contarCuadranteIndividual(casillas, 6, 6, numerosPosibles);
+    }
+
+    private static void contarCuadranteIndividual(TextView[][] casillas, int x, int y, Map<Integer, Boolean> numerosPosibles) {
+        for (int i = 0; i < Sudoku.TAMANO_CUADRANTE; i++) {
+            for (int j = 0; j < Sudoku.TAMANO_CUADRANTE; j++) {
+                String numero = casillas[i + y][j + x].getText().toString();
+                if (!Sudoku.VACIO.equals(numero)) {
+                    int id = getBotonNumero(numero);
+                    numerosPosibles.put(id, false);
+                }
+            }
+        }
+    }
+
+    private static int getBotonNumero(String numero) {
+        switch (numero) {
+            case Sudoku.UNO:
+                return R.id.uno;
+
+            case Sudoku.DOS:
+                return R.id.dos;
+
+            case Sudoku.TRES:
+                return R.id.tres;
+
+            case Sudoku.CUATRO:
+                return R.id.cuatro;
+
+            case Sudoku.CINCO:
+                return R.id.cinco;
+
+            case Sudoku.SEIS:
+                return R.id.seis;
+
+            case Sudoku.SIETE:
+                return R.id.siete;
+
+            case Sudoku.OCHO:
+                return R.id.ocho;
+
+            case Sudoku.NUEVE:
+                return R.id.nueve;
+
+            default:
+                return 0;
+        }
     }
 
     private static void marcarFila(TextView[][] casillas, int y) {

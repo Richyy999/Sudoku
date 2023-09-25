@@ -17,12 +17,12 @@ public class Partida {
 
     private static Partida partida;
 
-    private Sudoku sudoku;
+    private final Sudoku sudoku;
 
     private final Stack<Accion> accionesRealizadas;
     private final Stack<Accion> accionesDeshechas;
 
-    private final TextView[][] casillas;
+    private final boolean mostrarNumerosValidos;
 
     private String[][] tableroActual;
 
@@ -32,6 +32,7 @@ public class Partida {
         this.numeroPistas = dificultad.getNumPistas();
         this.accionesRealizadas = new Stack<>();
         this.accionesDeshechas = new Stack<>();
+        this.mostrarNumerosValidos = dificultad.isMostrarNumerosValidos();
 
         this.tableroActual = new String[9][9];
         for (int y = 0; y < Sudoku.TAMANO_TABLERO; y++) {
@@ -40,7 +41,7 @@ public class Partida {
             }
         }
 
-        this.casillas = new TextView[Sudoku.TAMANO_TABLERO][Sudoku.TAMANO_TABLERO];
+        this.sudoku = Sudoku.getInstance();
     }
 
     public static Partida newInstance(Dificultad dificultad) {
@@ -106,13 +107,8 @@ public class Partida {
         }
     }
 
-    public TextView getCasilla(Context context, int x, int y) {
-        TextView casilla = this.casillas[y][x];
-        if (casilla == null) {
-            casilla = new TextView(context);
-            this.casillas[y][x] = casilla;
-        }
-        return casilla;
+    public Sudoku getSudoku() {
+        return sudoku;
     }
 
     public String[][] getTableroActual() {
@@ -129,6 +125,14 @@ public class Partida {
 
     public boolean hayRehacer() {
         return !accionesDeshechas.isEmpty();
+    }
+
+    public boolean seleccionMultiple() {
+        return false;
+    }
+
+    public boolean isMostrarNumerosValidos() {
+        return mostrarNumerosValidos;
     }
 
     public int getNumeroPistas() {
