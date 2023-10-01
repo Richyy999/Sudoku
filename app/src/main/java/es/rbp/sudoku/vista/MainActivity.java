@@ -39,8 +39,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private Partida partida;
 
-    private Sudoku sudoku;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,18 +51,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (partida == null)
             partida = Partida.newInstance(Dificultad.FACIL);
 
-        sudoku = partida.getSudoku();
-
         cargarTablero();
         cargarBotonesNumero();
         cargarBotonesAccion();
-        UtilTablero.limpiarSeleccionTablero(sudoku.getCasillas());
+        UtilTablero.limpiarSeleccionTablero(partida.getCasillas());
+        partida.init(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         pintarTablero();
+        actualizarTablero();
     }
 
     @Override
@@ -109,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         cargarBotonesNumero();
         partida.setTableroActual(UtilTablero.getTableroString(casillas));
 
-        if (sudoku.validarSudoku(UtilTablero.getTableroString(sudoku.getCasillas())))
+        if (partida.validarSudoku(UtilTablero.getTableroString(casillas)))
             Toast.makeText(this, "Sudoku resuelto", Toast.LENGTH_SHORT).show();
     }
 
@@ -159,11 +157,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void cargarBotonesNumero() {
         Map<String, Integer> numerosEscritos = UtilTablero.contarNumeros(casillas);
+        Map<Integer, Boolean> numerosPosibles = UtilTablero.contarNumerosPosibles(casillas, casillasSeleccionadas);
+        UtilTablero.marcarMismoNumero(casillas, casillasSeleccionadas);
 
         TextView uno = findViewById(R.id.uno);
         uno.setOnClickListener(this);
         int numUnos = numerosEscritos.getOrDefault(UtilTablero.getNumeroBoton(R.id.uno), 0);
-        if (numUnos >= 9)
+        if (numUnos >= 9 || (partida.isMostrarNumerosValidos() && !numerosPosibles.get(R.id.uno)))
             uno.setTextColor(ContextCompat.getColor(this, R.color.texto_azul_desactivado));
         else
             uno.setTextColor(ContextCompat.getColor(this, R.color.texto_azul));
@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView dos = findViewById(R.id.dos);
         dos.setOnClickListener(this);
         int numDos = numerosEscritos.getOrDefault(UtilTablero.getNumeroBoton(R.id.dos), 0);
-        if (numDos >= 9)
+        if (numDos >= 9 || (partida.isMostrarNumerosValidos() && !numerosPosibles.get(R.id.dos)))
             dos.setTextColor(ContextCompat.getColor(this, R.color.texto_azul_desactivado));
         else
             dos.setTextColor(ContextCompat.getColor(this, R.color.texto_azul));
@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView tres = findViewById(R.id.tres);
         tres.setOnClickListener(this);
         int numTres = numerosEscritos.getOrDefault(UtilTablero.getNumeroBoton(R.id.tres), 0);
-        if (numTres >= 9)
+        if (numTres >= 9 || (partida.isMostrarNumerosValidos() && !numerosPosibles.get(R.id.tres)))
             tres.setTextColor(ContextCompat.getColor(this, R.color.texto_azul_desactivado));
         else
             tres.setTextColor(ContextCompat.getColor(this, R.color.texto_azul));
@@ -187,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView cuatro = findViewById(R.id.cuatro);
         cuatro.setOnClickListener(this);
         int numCuatros = numerosEscritos.getOrDefault(UtilTablero.getNumeroBoton(R.id.cuatro), 0);
-        if (numCuatros >= 9)
+        if (numCuatros >= 9 || (partida.isMostrarNumerosValidos() && !numerosPosibles.get(R.id.cuatro)))
             cuatro.setTextColor(ContextCompat.getColor(this, R.color.texto_azul_desactivado));
         else
             cuatro.setTextColor(ContextCompat.getColor(this, R.color.texto_azul));
@@ -195,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView cinco = findViewById(R.id.cinco);
         cinco.setOnClickListener(this);
         int numCincos = numerosEscritos.getOrDefault(UtilTablero.getNumeroBoton(R.id.cinco), 0);
-        if (numCincos >= 9)
+        if (numCincos >= 9 || (partida.isMostrarNumerosValidos() && !numerosPosibles.get(R.id.cinco)))
             cinco.setTextColor(ContextCompat.getColor(this, R.color.texto_azul_desactivado));
         else
             cinco.setTextColor(ContextCompat.getColor(this, R.color.texto_azul));
@@ -203,7 +203,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView seis = findViewById(R.id.seis);
         seis.setOnClickListener(this);
         int numSeis = numerosEscritos.getOrDefault(UtilTablero.getNumeroBoton(R.id.seis), 0);
-        if (numSeis >= 9)
+        if (numSeis >= 9 || (partida.isMostrarNumerosValidos() && !numerosPosibles.get(R.id.seis)))
             seis.setTextColor(ContextCompat.getColor(this, R.color.texto_azul_desactivado));
         else
             seis.setTextColor(ContextCompat.getColor(this, R.color.texto_azul));
@@ -211,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView siete = findViewById(R.id.siete);
         siete.setOnClickListener(this);
         int numSietes = numerosEscritos.getOrDefault(UtilTablero.getNumeroBoton(R.id.siete), 0);
-        if (numSietes >= 9)
+        if (numSietes >= 9 || (partida.isMostrarNumerosValidos() && !numerosPosibles.get(R.id.siete)))
             siete.setTextColor(ContextCompat.getColor(this, R.color.texto_azul_desactivado));
         else
             siete.setTextColor(ContextCompat.getColor(this, R.color.texto_azul));
@@ -219,7 +219,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView ocho = findViewById(R.id.ocho);
         ocho.setOnClickListener(this);
         int numOchos = numerosEscritos.getOrDefault(UtilTablero.getNumeroBoton(R.id.ocho), 0);
-        if (numOchos >= 9)
+        if (numOchos >= 9 || (partida.isMostrarNumerosValidos() && !numerosPosibles.get(R.id.ocho)))
             ocho.setTextColor(ContextCompat.getColor(this, R.color.texto_azul_desactivado));
         else
             ocho.setTextColor(ContextCompat.getColor(this, R.color.texto_azul));
@@ -227,7 +227,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView nueve = findViewById(R.id.nueve);
         nueve.setOnClickListener(this);
         int numNueves = numerosEscritos.getOrDefault(UtilTablero.getNumeroBoton(R.id.nueve), 0);
-        if (numNueves >= 9)
+        if (numNueves >= 9 || (partida.isMostrarNumerosValidos() && !numerosPosibles.get(R.id.nueve)))
             nueve.setTextColor(ContextCompat.getColor(this, R.color.texto_azul_desactivado));
         else
             nueve.setTextColor(ContextCompat.getColor(this, R.color.texto_azul));
@@ -244,8 +244,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         for (int y = 0; y < 9; y++) {
             for (int x = 0; x < 9; x++) {
-                TextView casillaNueva = sudoku.getCasilla(this, x, y);
-                casillaNueva.setText(Sudoku.VACIO);
+                TextView casillaNueva = partida.getCasilla(this, x, y);
                 casillaNueva.setFreezesText(true);
                 casillaNueva.setClickable(true);
                 casillaNueva.setTextColor(ContextCompat.getColor(this, R.color.texto_azul));
@@ -264,23 +263,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         if (!partida.seleccionMultiple())
                             casillasSeleccionadas.clear();
 
-                        casillasSeleccionadas.add(casilla);
+                        if (casilla.isEnabled())
+                            casillasSeleccionadas.add(casilla);
                     }
                     UtilTablero.limpiarSeleccionTablero(casillas);
                     UtilTablero.seleccionarCasillas(casillasSeleccionadas);
                     UtilTablero.marcarCasillas(casillasSeleccionadas, casillas);
-                    UtilTablero.marcarMismoNumero(casillas, casillasSeleccionadas);
-                    if (partida.isMostrarNumerosValidos()) {
-                        Map<Integer, Boolean> numerosPosibles = UtilTablero.contarNumerosPosibles(casillas, casillasSeleccionadas);
-
-                        for (Map.Entry<Integer, Boolean> entry : numerosPosibles.entrySet()) {
-                            TextView numero = findViewById(entry.getKey());
-                            if (entry.getValue())
-                                numero.setTextColor(ContextCompat.getColor(this, R.color.texto_azul));
-                            else
-                                numero.setTextColor(ContextCompat.getColor(this, R.color.texto_azul_desactivado));
-                        }
-                    }
+                    cargarBotonesNumero();
                     cargarBotonesAccion();
                 });
                 ViewParent padre = casillaNueva.getParent();

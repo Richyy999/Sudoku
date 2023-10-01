@@ -238,30 +238,12 @@ public class UtilTablero {
     }
 
     private static void contarCuadrante(TextView[][] casillas, int x, int y, Map<Integer, Boolean> numerosPosibles) {
-        if (x < 3 && y < 3)
-            contarCuadranteIndividual(casillas, 0, 0, numerosPosibles);
-        else if (x < 6 && y < 3)
-            contarCuadranteIndividual(casillas, 3, 0, numerosPosibles);
-        else if (x < 9 && y < 3)
-            contarCuadranteIndividual(casillas, 6, 0, numerosPosibles);
-        else if (x < 3 && y < 6)
-            contarCuadranteIndividual(casillas, 0, 3, numerosPosibles);
-        else if (x < 6 && y < 6)
-            contarCuadranteIndividual(casillas, 3, 3, numerosPosibles);
-        else if (x < 9 && y < 6)
-            contarCuadranteIndividual(casillas, 6, 3, numerosPosibles);
-        else if (x < 3 && y < 9)
-            contarCuadranteIndividual(casillas, 0, 6, numerosPosibles);
-        else if (x < 6 && y < 9)
-            contarCuadranteIndividual(casillas, 3, 6, numerosPosibles);
-        else if (x < 9 && y < 9)
-            contarCuadranteIndividual(casillas, 6, 6, numerosPosibles);
-    }
+        int fila = x - x % 3;
+        int columna = y - y % 3;
 
-    private static void contarCuadranteIndividual(TextView[][] casillas, int x, int y, Map<Integer, Boolean> numerosPosibles) {
-        for (int i = 0; i < Sudoku.TAMANO_CUADRANTE; i++) {
-            for (int j = 0; j < Sudoku.TAMANO_CUADRANTE; j++) {
-                String numero = casillas[i + y][j + x].getText().toString();
+        for (int i = columna; i < columna + Sudoku.TAMANO_CUADRANTE; i++) {
+            for (int j = fila; j < fila + Sudoku.TAMANO_CUADRANTE; j++) {
+                String numero = casillas[i][j].getText().toString();
                 if (!Sudoku.VACIO.equals(numero)) {
                     int id = getBotonNumero(numero);
                     numerosPosibles.put(id, false);
@@ -317,30 +299,12 @@ public class UtilTablero {
     }
 
     private static void marcarCuadrante(TextView[][] casillas, int x, int y) {
-        if (x < 3 && y < 3)
-            marcarCuadranteIndividual(casillas, 0, 0);
-        else if (x < 6 && y < 3)
-            marcarCuadranteIndividual(casillas, 3, 0);
-        else if (x < 9 && y < 3)
-            marcarCuadranteIndividual(casillas, 6, 0);
-        else if (x < 3 && y < 6)
-            marcarCuadranteIndividual(casillas, 0, 3);
-        else if (x < 6 && y < 6)
-            marcarCuadranteIndividual(casillas, 3, 3);
-        else if (x < 9 && y < 6)
-            marcarCuadranteIndividual(casillas, 6, 3);
-        else if (x < 3 && y < 9)
-            marcarCuadranteIndividual(casillas, 0, 6);
-        else if (x < 6 && y < 9)
-            marcarCuadranteIndividual(casillas, 3, 6);
-        else if (x < 9 && y < 9)
-            marcarCuadranteIndividual(casillas, 6, 6);
-    }
+        int fila = x - x % 3;
+        int columna = y - y % 3;
 
-    private static void marcarCuadranteIndividual(TextView[][] casillas, int x, int y) {
-        for (int i = 0; i < Sudoku.TAMANO_CUADRANTE; i++) {
-            for (int j = 0; j < Sudoku.TAMANO_CUADRANTE; j++) {
-                casillas[i + y][j + x].setActivated(true);
+        for (int i = columna; i < columna + Sudoku.TAMANO_CUADRANTE; i++) {
+            for (int j = fila; j < fila + Sudoku.TAMANO_CUADRANTE; j++) {
+                casillas[i][j].setActivated(true);
             }
         }
     }

@@ -19,6 +19,8 @@ public class Partida {
 
     private final Sudoku sudoku;
 
+    private final Dificultad dificultad;
+
     private final Stack<Accion> accionesRealizadas;
     private final Stack<Accion> accionesDeshechas;
 
@@ -28,24 +30,22 @@ public class Partida {
 
     private int numeroPistas;
 
+    private boolean iniciado;
+
     private Partida(Dificultad dificultad) {
         this.numeroPistas = dificultad.getNumPistas();
         this.accionesRealizadas = new Stack<>();
         this.accionesDeshechas = new Stack<>();
         this.mostrarNumerosValidos = dificultad.isMostrarNumerosValidos();
-
-        this.tableroActual = new String[9][9];
-        for (int y = 0; y < Sudoku.TAMANO_TABLERO; y++) {
-            for (int x = 0; x < Sudoku.TAMANO_TABLERO; x++) {
-                this.tableroActual[y][x] = Sudoku.VACIO;
-            }
-        }
+        this.dificultad = dificultad;
+        this.iniciado = false;
 
         this.sudoku = Sudoku.getInstance();
     }
 
     public static Partida newInstance(Dificultad dificultad) {
         partida = new Partida(dificultad);
+
         return partida;
     }
 
@@ -53,33 +53,51 @@ public class Partida {
         return partida;
     }
 
+    public void init(Context context) {
+        if (!iniciado) {
+            this.tableroActual = sudoku.getTableroInicial(dificultad.getNumCasillasIniciales(), context);
+            iniciado = true;
+        }
+    }
+
     public void escribir(Set<TextView> casillas, String numero) {
         Map<TextView, String> valoresAnteriores = new HashMap<>();
         Map<TextView, String> valoresNuevos = new HashMap<>();
+        boolean escrito = false;
 
         for (TextView casilla : casillas) {
-            valoresAnteriores.put(casilla, casilla.getText().toString());
-            valoresNuevos.put(casilla, numero);
-            casilla.setText(numero);
+            if (casilla.isEnabled()) {
+                escrito = true;
+                valoresAnteriores.put(casilla, casilla.getText().toString());
+                valoresNuevos.put(casilla, numero);
+                casilla.setText(numero);
+            }
         }
 
-        accionesDeshechas.clear();
-        accionesRealizadas.push(new Accion(valoresAnteriores, valoresNuevos));
+        if (escrito) {
+            accionesDeshechas.clear();
+            accionesRealizadas.push(new Accion(valoresAnteriores, valoresNuevos));
+        }
     }
 
     public void borrar(Set<TextView> casillas) {
         Map<TextView, String> valoresAnteriores = new HashMap<>();
         Map<TextView, String> valoresNuevos = new HashMap<>();
+        boolean borrado = false;
 
         for (TextView casilla : casillas) {
-            String numeroAnterior = casilla.getText().toString();
-            valoresAnteriores.put(casilla, numeroAnterior);
-            valoresNuevos.put(casilla, Sudoku.VACIO);
-            casilla.setText(Sudoku.VACIO);
+            if (casilla.isEnabled()) {
+                borrado = true;
+                String numeroAnterior = casilla.getText().toString();
+                valoresAnteriores.put(casilla, numeroAnterior);
+                valoresNuevos.put(casilla, Sudoku.VACIO);
+                casilla.setText(Sudoku.VACIO);
+            }
         }
-
-        accionesDeshechas.clear();
-        accionesRealizadas.push(new Accion(valoresAnteriores, valoresNuevos));
+        if (borrado) {
+            accionesDeshechas.clear();
+            accionesRealizadas.push(new Accion(valoresAnteriores, valoresNuevos));
+        }
     }
 
     public void deshacer() {
@@ -107,8 +125,16 @@ public class Partida {
         }
     }
 
-    public Sudoku getSudoku() {
-        return sudoku;
+    public TextView getCasilla(Context context, int x, int y) {
+        return sudoku.getCasilla(context, x, y);
+    }
+
+    public boolean validarSudoku(String[][] sudoku) {
+        return this.sudoku.validarSudoku(sudoku);
+    }
+
+    public TextView[][] getCasillas() {
+        return sudoku.getCasillas();
     }
 
     public String[][] getTableroActual() {
@@ -128,7 +154,7 @@ public class Partida {
     }
 
     public boolean seleccionMultiple() {
-        return false;
+        return true;
     }
 
     public boolean isMostrarNumerosValidos() {
