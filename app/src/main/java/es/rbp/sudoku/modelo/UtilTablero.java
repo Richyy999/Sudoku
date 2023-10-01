@@ -2,7 +2,9 @@ package es.rbp.sudoku.modelo;
 
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -10,6 +12,8 @@ import es.rbp.sudoku.R;
 import es.rbp.sudoku.entidad.Sudoku;
 
 public class UtilTablero {
+
+    private static final String SEPARADOR_COORDENADA = ":";
 
     public static int getFondoCasilla(int x, int y) {
         int coordenadaX = x % 3;
@@ -215,6 +219,33 @@ public class UtilTablero {
         }
 
         return numerosPosibles;
+    }
+
+    public static String getCoordenada(int x, int y) {
+        return x + SEPARADOR_COORDENADA + y;
+    }
+
+    public static int getCoordenadaX(String coordenadas) {
+        return Integer.parseInt(coordenadas.split(SEPARADOR_COORDENADA)[0]);
+    }
+
+    public static int getCoordenadaY(String coordenadas) {
+        return Integer.parseInt(coordenadas.split(SEPARADOR_COORDENADA)[1]);
+    }
+
+    public static List<String> getCoordenadasVacias(TextView[][] tablero) {
+        List<String> coordenadasVacias = new ArrayList<>();
+        String[][] casillas = getTableroString(tablero);
+
+        for (int y = 0; y < Sudoku.TAMANO_TABLERO; y++) {
+            for (int x = 0; x < Sudoku.TAMANO_TABLERO; x++) {
+                String numero = casillas[y][x];
+                if (Sudoku.VACIO.equals(numero))
+                    coordenadasVacias.add(getCoordenada(x, y));
+            }
+        }
+
+        return coordenadasVacias;
     }
 
     private static void contarFila(TextView[][] casillas, int y, Map<Integer, Boolean> numerosPosibles) {

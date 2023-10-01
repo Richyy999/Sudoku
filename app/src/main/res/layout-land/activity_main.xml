@@ -2,15 +2,17 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".vista.MainActivity"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".vista.MainActivity">
 
     <GridLayout
         android:id="@+id/tablero"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_margin="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:columnCount="9"
         android:padding="1dp"
         android:rowCount="9"
@@ -55,8 +57,8 @@
         app:layout_constraintStart_toEndOf="@+id/tablero">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            style="@style/layout_boton_horizontal"
-            android:id="@+id/btnDeshacer">
+            android:id="@+id/btnDeshacer"
+            style="@style/layout_boton_horizontal">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -89,8 +91,8 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            style="@style/layout_boton_horizontal"
-            android:id="@+id/btnRehacer">
+            android:id="@+id/btnRehacer"
+            style="@style/layout_boton_horizontal">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -123,8 +125,8 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            style="@style/layout_boton_horizontal"
-            android:id="@+id/btnBorrar">
+            android:id="@+id/btnBorrar"
+            style="@style/layout_boton_horizontal">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -156,8 +158,8 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            style="@style/layout_boton_horizontal"
-            android:id="@+id/btnPista">
+            android:id="@+id/btnPista"
+            style="@style/layout_boton_horizontal">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -186,6 +188,19 @@
                     app:layout_constraintTop_toBottomOf="@+id/iconoBotonPista" />
 
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/lblNumPistas"
+                android:layout_width="20dp"
+                android:layout_height="0dp"
+                android:background="@drawable/fondo_pista_redondo"
+                android:gravity="center"
+                android:textColor="@color/texto_azul"
+                android:textSize="15sp"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>

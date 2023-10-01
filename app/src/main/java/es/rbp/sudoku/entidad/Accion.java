@@ -25,4 +25,9 @@ public class Accion {
             entry.getKey().setText(entry.getValue());
         }
     }
+
+    public void eliminarCasilla(TextView casilla) {
+        valoresAnteriores.remove(casilla);
+        valoresNuevos.remove(casilla);
+    }
 }

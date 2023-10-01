@@ -3,13 +3,8 @@ package es.rbp.sudoku.vista;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 
-import android.content.res.Configuration;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -96,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void pista() {
-        partida.pista(this);
+        partida.pista(this, UtilTablero.getCoordenadasVacias(casillas));
         actualizarTablero();
     }
 
@@ -149,10 +144,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ConstraintLayout btnPista = findViewById(R.id.btnPista);
         btnPista.setOnClickListener(view -> pista());
         ImageView imgPista = findViewById(R.id.iconoBotonPista);
-        if (partida.getNumeroPistas() > 0)
+
+        TextView lblNumPistas = findViewById(R.id.lblNumPistas);
+        lblNumPistas.setText(String.valueOf(partida.getNumeroPistas()));
+
+        if (partida.getNumeroPistas() > 0) {
             imgPista.setImageResource(R.drawable.pista);
-        else
+            lblNumPistas.setEnabled(true);
+            lblNumPistas.setTextColor(ContextCompat.getColor(this, R.color.texto_azul));
+        } else {
             imgPista.setImageResource(R.drawable.pista_desactivada);
+            lblNumPistas.setEnabled(false);
+            lblNumPistas.setTextColor(ContextCompat.getColor(this, R.color.texto_azul_desactivado));
+        }
     }
 
     private void cargarBotonesNumero() {
@@ -245,15 +249,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         for (int y = 0; y < 9; y++) {
             for (int x = 0; x < 9; x++) {
                 TextView casillaNueva = partida.getCasilla(this, x, y);
-                casillaNueva.setFreezesText(true);
-                casillaNueva.setClickable(true);
-                casillaNueva.setTextColor(ContextCompat.getColor(this, R.color.texto_azul));
-                int orientacion = getResources().getConfiguration().orientation;
-                casillaNueva.setTextSize(TypedValue.COMPLEX_UNIT_SP, orientacion == Configuration.ORIENTATION_PORTRAIT ? 23 : 20);
-                Typeface typeface = ResourcesCompat.getFont(this, R.font.mooli_regular);
-                casillaNueva.setTypeface(typeface);
-                casillaNueva.setBackgroundResource(UtilTablero.getFondoCasilla(x, y));
-                casillaNueva.setGravity(Gravity.CENTER);
+                if (casillaNueva.isEnabled()) {
+                    casillaNueva.setTextColor(ContextCompat.getColor(this, R.color.texto_azul));
+                } else {
+                    casillaNueva.setClickable(true);
+                    casillaNueva.setTextColor(ContextCompat.getColor(this, R.color.negro));
+                    String coordenada = UtilTablero.getCoordenada(x, y);
+                    if (partida.contienePista(coordenada))
+                        casillaNueva.setTextColor(ContextCompat.getColor(this, R.color.texto_pista));
+                }
                 casillas[y][x] = casillaNueva;
                 casillaNueva.setOnClickListener(v -> {
                     TextView casilla = (TextView) v;

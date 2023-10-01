@@ -5,6 +5,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
@@ -116,13 +117,18 @@ public class Partida {
         }
     }
 
-    public void pista(Context context) {
+    public void pista(Context context, List<String> coordenadasVacias) {
         if (numeroPistas > 0) {
-            Toast.makeText(context, "Te quedan " + numeroPistas + " pistas", Toast.LENGTH_SHORT).show();
+            TextView casillaRevelada = sudoku.revelarCasilla(coordenadasVacias, context);
+            eliminarDeAccion(casillaRevelada);
             numeroPistas--;
         } else {
             Toast.makeText(context, "No te quedan pistas", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public boolean contienePista(String coordenada) {
+        return sudoku.getCoordenadasPistas().contains(coordenada);
     }
 
     public TextView getCasilla(Context context, int x, int y) {
@@ -163,5 +169,16 @@ public class Partida {
 
     public int getNumeroPistas() {
         return numeroPistas;
+    }
+
+    private void eliminarDeAccion(TextView casilla) {
+        eliminarDePila(casilla, accionesDeshechas);
+        eliminarDePila(casilla, accionesRealizadas);
+    }
+
+    private void eliminarDePila(TextView casilla, Stack<Accion> pila) {
+        for (Accion accion : pila) {
+            accion.eliminarCasilla(casilla);
+        }
     }
 }
