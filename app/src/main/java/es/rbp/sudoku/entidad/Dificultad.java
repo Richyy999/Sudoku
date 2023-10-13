@@ -2,9 +2,9 @@ package es.rbp.sudoku.entidad;
 
 public class Dificultad {
 
-    public static final Dificultad FACIL = new Dificultad(9, 50, true);
+    public static final Dificultad FACIL = new Dificultad(9, 45, true);
 
-    public static final Dificultad MEDIO = new Dificultad(5, 35, true);
+    public static final Dificultad MEDIO = new Dificultad(5, 30, true);
 
     public static final Dificultad DIFICIL = new Dificultad(3, 20, false);
 

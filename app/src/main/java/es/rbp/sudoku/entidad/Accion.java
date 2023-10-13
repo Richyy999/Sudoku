@@ -1,32 +1,40 @@
 package es.rbp.sudoku.entidad;
 
-import android.widget.TextView;
-
 import java.util.Map;
+
+import es.rbp.sudoku.vista.Casilla;
 
 public class Accion {
 
-    private final Map<TextView, String> valoresAnteriores;
-    private final Map<TextView, String> valoresNuevos;
+    private final Map<Casilla, String> valoresAnteriores;
+    private final Map<Casilla, String> valoresNuevos;
 
-    public Accion(Map<TextView, String> valoresAnteriores, Map<TextView, String> valoresNuevos) {
+    public Accion(Map<Casilla, String> valoresAnteriores, Map<Casilla, String> valoresNuevos) {
         this.valoresAnteriores = valoresAnteriores;
         this.valoresNuevos = valoresNuevos;
     }
 
     public void deshacerAccion() {
-        for (Map.Entry<TextView, String> entry : valoresAnteriores.entrySet()) {
-            entry.getKey().setText(entry.getValue());
+        for (Map.Entry<Casilla, String> entry : valoresAnteriores.entrySet()) {
+            String valor = entry.getValue();
+            if (Sudoku.VACIO.equals(valor))
+                entry.getKey().borrar();
+            else
+                entry.getKey().setNumero(entry.getValue());
         }
     }
 
     public void rehacerAccion() {
-        for (Map.Entry<TextView, String> entry : valoresNuevos.entrySet()) {
-            entry.getKey().setText(entry.getValue());
+        for (Map.Entry<Casilla, String> entry : valoresNuevos.entrySet()) {
+            String valor = entry.getValue();
+            if (Sudoku.VACIO.equals(valor))
+                entry.getKey().borrar();
+            else
+                entry.getKey().setNumero(entry.getValue());
         }
     }
 
-    public void eliminarCasilla(TextView casilla) {
+    public void eliminarCasilla(Casilla casilla) {
         valoresAnteriores.remove(casilla);
         valoresNuevos.remove(casilla);
     }

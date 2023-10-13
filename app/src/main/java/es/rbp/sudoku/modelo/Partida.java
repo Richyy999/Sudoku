@@ -1,7 +1,6 @@
 package es.rbp.sudoku.modelo;
 
 import android.content.Context;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.HashMap;
@@ -13,6 +12,7 @@ import java.util.Stack;
 import es.rbp.sudoku.entidad.Accion;
 import es.rbp.sudoku.entidad.Dificultad;
 import es.rbp.sudoku.entidad.Sudoku;
+import es.rbp.sudoku.vista.Casilla;
 
 public class Partida {
 
@@ -33,7 +33,7 @@ public class Partida {
 
     private boolean iniciado;
 
-    private Partida(Dificultad dificultad) {
+    private Partida(Dificultad dificultad, Context context) {
         this.numeroPistas = dificultad.getNumPistas();
         this.accionesRealizadas = new Stack<>();
         this.accionesDeshechas = new Stack<>();
@@ -41,11 +41,11 @@ public class Partida {
         this.dificultad = dificultad;
         this.iniciado = false;
 
-        this.sudoku = Sudoku.getInstance();
+        this.sudoku = Sudoku.newInstance(context);
     }
 
-    public static Partida newInstance(Dificultad dificultad) {
-        partida = new Partida(dificultad);
+    public static Partida newInstance(Dificultad dificultad, Context context) {
+        partida = new Partida(dificultad, context);
 
         return partida;
     }
@@ -54,24 +54,24 @@ public class Partida {
         return partida;
     }
 
-    public void init(Context context) {
+    public void init() {
         if (!iniciado) {
-            this.tableroActual = sudoku.getTableroInicial(dificultad.getNumCasillasIniciales(), context);
+            this.tableroActual = sudoku.getTableroInicial(dificultad.getNumCasillasIniciales());
             iniciado = true;
         }
     }
 
-    public void escribir(Set<TextView> casillas, String numero) {
-        Map<TextView, String> valoresAnteriores = new HashMap<>();
-        Map<TextView, String> valoresNuevos = new HashMap<>();
+    public void escribir(Set<Casilla> casillas, String numero) {
+        Map<Casilla, String> valoresAnteriores = new HashMap<>();
+        Map<Casilla, String> valoresNuevos = new HashMap<>();
         boolean escrito = false;
 
-        for (TextView casilla : casillas) {
+        for (Casilla casilla : casillas) {
             if (casilla.isEnabled()) {
                 escrito = true;
-                valoresAnteriores.put(casilla, casilla.getText().toString());
+                valoresAnteriores.put(casilla, casilla.getNumero());
                 valoresNuevos.put(casilla, numero);
-                casilla.setText(numero);
+                casilla.setNumero(numero);
             }
         }
 
@@ -81,18 +81,24 @@ public class Partida {
         }
     }
 
-    public void borrar(Set<TextView> casillas) {
-        Map<TextView, String> valoresAnteriores = new HashMap<>();
-        Map<TextView, String> valoresNuevos = new HashMap<>();
+    public void anotar(Set<Casilla> casillas, String numero) {
+        for (Casilla casilla : casillas) {
+            casilla.anotarNumero(numero);
+        }
+    }
+
+    public void borrar(Set<Casilla> casillas) {
+        Map<Casilla, String> valoresAnteriores = new HashMap<>();
+        Map<Casilla, String> valoresNuevos = new HashMap<>();
         boolean borrado = false;
 
-        for (TextView casilla : casillas) {
+        for (Casilla casilla : casillas) {
             if (casilla.isEnabled()) {
                 borrado = true;
-                String numeroAnterior = casilla.getText().toString();
+                String numeroAnterior = casilla.getNumero();
                 valoresAnteriores.put(casilla, numeroAnterior);
                 valoresNuevos.put(casilla, Sudoku.VACIO);
-                casilla.setText(Sudoku.VACIO);
+                casilla.borrar();
             }
         }
         if (borrado) {
@@ -119,7 +125,7 @@ public class Partida {
 
     public void pista(Context context, List<String> coordenadasVacias) {
         if (numeroPistas > 0) {
-            TextView casillaRevelada = sudoku.revelarCasilla(coordenadasVacias, context);
+            Casilla casillaRevelada = sudoku.revelarCasilla(coordenadasVacias);
             eliminarDeAccion(casillaRevelada);
             numeroPistas--;
         } else {
@@ -131,16 +137,12 @@ public class Partida {
         return sudoku.getCoordenadasPistas().contains(coordenada);
     }
 
-    public TextView getCasilla(Context context, int x, int y) {
-        return sudoku.getCasilla(context, x, y);
+    public Casilla getCasilla(int x, int y) {
+        return sudoku.getCasilla(x, y);
     }
 
     public boolean validarSudoku(String[][] sudoku) {
         return this.sudoku.validarSudoku(sudoku);
-    }
-
-    public TextView[][] getCasillas() {
-        return sudoku.getCasillas();
     }
 
     public String[][] getTableroActual() {
@@ -160,7 +162,7 @@ public class Partida {
     }
 
     public boolean seleccionMultiple() {
-        return true;
+        return false;
     }
 
     public boolean isMostrarNumerosValidos() {
@@ -171,12 +173,16 @@ public class Partida {
         return numeroPistas;
     }
 
-    private void eliminarDeAccion(TextView casilla) {
+    public Casilla[][] getCasillas() {
+        return sudoku.getCasillas();
+    }
+
+    private void eliminarDeAccion(Casilla casilla) {
         eliminarDePila(casilla, accionesDeshechas);
         eliminarDePila(casilla, accionesRealizadas);
     }
 
-    private void eliminarDePila(TextView casilla, Stack<Accion> pila) {
+    private void eliminarDePila(Casilla casilla, Stack<Accion> pila) {
         for (Accion accion : pila) {
             accion.eliminarCasilla(casilla);
         }

@@ -1,14 +1,6 @@
 package es.rbp.sudoku.entidad;
 
 import android.content.Context;
-import android.content.res.Configuration;
-import android.graphics.Typeface;
-import android.util.TypedValue;
-import android.view.Gravity;
-import android.widget.TextView;
-
-import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 
 import java.util.HashSet;
 import java.util.List;
@@ -17,6 +9,7 @@ import java.util.Set;
 
 import es.rbp.sudoku.R;
 import es.rbp.sudoku.modelo.UtilTablero;
+import es.rbp.sudoku.vista.Casilla;
 
 public class Sudoku {
 
@@ -40,14 +33,15 @@ public class Sudoku {
 
     private static Sudoku sudoku;
 
-    private final TextView[][] casillas;
+    private final Casilla[][] casillas;
 
     private final Set<String> coordenadasPistas;
     private String[][] tableroResuelto;
 
-    private Sudoku() {
-        this.casillas = new TextView[TAMANO_TABLERO][TAMANO_TABLERO];
+    private Sudoku(Context context) {
         this.coordenadasPistas = new HashSet<>();
+        this.casillas = new Casilla[TAMANO_TABLERO][TAMANO_TABLERO];
+        inicializarCasillas(context);
 
         boolean correcto;
         do {
@@ -56,11 +50,23 @@ public class Sudoku {
         } while (!correcto);
     }
 
-    public static Sudoku getInstance() {
-        if (sudoku == null)
-            sudoku = new Sudoku();
-
+    public static Sudoku newInstance(Context context) {
+        sudoku = new Sudoku(context);
         return sudoku;
+    }
+
+    public static Sudoku getInstance() {
+        return sudoku;
+    }
+
+    private void inicializarCasillas(Context context) {
+        for (int y = 0; y < 9; y++) {
+            for (int x = 0; x < 9; x++) {
+                Casilla casillaNueva = new Casilla(context);
+                casillaNueva.setBackgroundResource(UtilTablero.getFondoCasilla(x, y));
+                casillas[y][x] = casillaNueva;
+            }
+        }
     }
 
     public boolean validarSudoku(String[][] sudoku) {
@@ -73,26 +79,11 @@ public class Sudoku {
         return true;
     }
 
-    public TextView getCasilla(Context context, int x, int y) {
-        TextView casilla = casillas[y][x];
-        if (casilla == null) {
-            casilla = new TextView(context);
-
-            casilla.setFreezesText(true);
-            casilla.setClickable(true);
-            int orientacion = context.getResources().getConfiguration().orientation;
-            casilla.setTextSize(TypedValue.COMPLEX_UNIT_SP, orientacion == Configuration.ORIENTATION_PORTRAIT ? 23 : 20);
-            Typeface typeface = ResourcesCompat.getFont(context, R.font.mooli_regular);
-            casilla.setTypeface(typeface);
-            casilla.setBackgroundResource(UtilTablero.getFondoCasilla(x, y));
-            casilla.setGravity(Gravity.CENTER);
-
-            casillas[y][x] = casilla;
-        }
-        return casilla;
+    public Casilla getCasilla(int x, int y) {
+        return casillas[y][x];
     }
 
-    public String[][] getTableroInicial(int numCasillas, Context context) {
+    public String[][] getTableroInicial(int numCasillas) {
         String[][] tableroInicial = generarSudokuVacio();
         Set<String> posiciones = new HashSet<>();
         for (int i = 0; i < numCasillas; i++) {
@@ -109,14 +100,14 @@ public class Sudoku {
 
             posiciones.add(coordenada);
             tableroInicial[y][x] = tableroResuelto[y][x];
-            casillas[y][x].setTextColor(ContextCompat.getColor(context, R.color.negro));
+            casillas[y][x].setColorTexto(R.color.negro);
             casillas[y][x].setEnabled(false);
         }
 
         return tableroInicial;
     }
 
-    public TextView revelarCasilla(List<String> coordenadasVacias, Context context) {
+    public Casilla revelarCasilla(List<String> coordenadasVacias) {
         String coordenadaElegida;
 
         if (coordenadasVacias.isEmpty()) {
@@ -130,10 +121,10 @@ public class Sudoku {
         int y = UtilTablero.getCoordenadaY(coordenadaElegida);
 
         String numero = tableroResuelto[y][x];
-        TextView casilla = casillas[y][x];
+        Casilla casilla = casillas[y][x];
         casilla.setEnabled(false);
-        casilla.setTextColor(ContextCompat.getColor(context, R.color.texto_pista));
-        casilla.setText(numero);
+        casilla.setColorTexto(R.color.texto_pista);
+        casilla.setNumero(numero);
         coordenadasPistas.add(coordenadaElegida);
 
         return casilla;
@@ -152,8 +143,8 @@ public class Sudoku {
         int x = r.nextInt(TAMANO_TABLERO);
         int y = r.nextInt(TAMANO_TABLERO);
 
-        TextView casilla = casillas[y][x];
-        String valorCasilla = casilla.getText().toString();
+        Casilla casilla = casillas[y][x];
+        String valorCasilla = casilla.getNumero();
         String valorResuelto = tableroResuelto[y][x];
 
         while (valorCasilla.equals(valorResuelto)) {
@@ -163,7 +154,7 @@ public class Sudoku {
             casilla = casillas[y][x];
 
             valorResuelto = tableroResuelto[y][x];
-            valorCasilla = casilla.getText().toString();
+            valorCasilla = casilla.getNumero();
         }
 
         return UtilTablero.getCoordenada(x, y);
@@ -298,7 +289,7 @@ public class Sudoku {
         return coordenadasPistas;
     }
 
-    public TextView[][] getCasillas() {
+    public Casilla[][] getCasillas() {
         return casillas;
     }
 }

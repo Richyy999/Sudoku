@@ -1,7 +1,5 @@
 package es.rbp.sudoku.modelo;
 
-import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +8,7 @@ import java.util.Set;
 
 import es.rbp.sudoku.R;
 import es.rbp.sudoku.entidad.Sudoku;
+import es.rbp.sudoku.vista.Casilla;
 
 public class UtilTablero {
 
@@ -91,24 +90,24 @@ public class UtilTablero {
             return Sudoku.VACIO;
     }
 
-    public static void limpiarSeleccionTablero(TextView[][] casillas) {
+    public static void limpiarSeleccionTablero(Casilla[][] casillas) {
         for (int y = 0; y < Sudoku.TAMANO_TABLERO; y++) {
             for (int x = 0; x < Sudoku.TAMANO_TABLERO; x++) {
-                TextView casilla = casillas[y][x];
+                Casilla casilla = casillas[y][x];
                 casilla.setActivated(false);
                 casilla.setSelected(false);
             }
         }
     }
 
-    public static void seleccionarCasillas(Set<TextView> casillas) {
-        for (TextView casilla : casillas) {
+    public static void seleccionarCasillas(Set<Casilla> casillas) {
+        for (Casilla casilla : casillas) {
             casilla.setSelected(true);
         }
     }
 
-    public static void marcarCasillas(Set<TextView> casillasSeleccionadas, TextView[][] casillas) {
-        for (TextView casilla : casillasSeleccionadas) {
+    public static void marcarCasillas(Set<Casilla> casillasSeleccionadas, Casilla[][] casillas) {
+        for (Casilla casilla : casillasSeleccionadas) {
             int x = getX(casilla, casillas);
             int y = getY(casilla, casillas);
 
@@ -118,25 +117,25 @@ public class UtilTablero {
         }
     }
 
-    public static String[][] getTableroString(TextView[][] casillas) {
+    public static String[][] getTableroString(Casilla[][] casillas) {
         String[][] tablero = new String[Sudoku.TAMANO_TABLERO][Sudoku.TAMANO_TABLERO];
         for (int y = 0; y < Sudoku.TAMANO_TABLERO; y++) {
             for (int x = 0; x < Sudoku.TAMANO_TABLERO; x++) {
-                TextView casilla = casillas[y][x];
-                String numero = casilla.getText().toString();
+                Casilla casilla = casillas[y][x];
+                String numero = casilla.getNumero();
                 tablero[y][x] = numero;
             }
         }
         return tablero;
     }
 
-    public static void marcarMismoNumero(TextView[][] casillas, Set<TextView> casillasSeleccionadas) {
-        for (TextView casilla : casillasSeleccionadas) {
+    public static void marcarMismoNumero(Casilla[][] casillas, Set<Casilla> casillasSeleccionadas) {
+        for (Casilla casilla : casillasSeleccionadas) {
             for (int y = 0; y < Sudoku.TAMANO_TABLERO; y++) {
                 for (int x = 0; x < Sudoku.TAMANO_TABLERO; x++) {
-                    TextView casillaTablero = casillas[y][x];
-                    String numeroTablero = casillaTablero.getText().toString();
-                    String numeroCasilla = casilla.getText().toString();
+                    Casilla casillaTablero = casillas[y][x];
+                    String numeroTablero = casillaTablero.getNumero();
+                    String numeroCasilla = casilla.getNumero();
                     if (Sudoku.VACIO.equals(numeroCasilla))
                         continue;
 
@@ -147,7 +146,7 @@ public class UtilTablero {
         }
     }
 
-    public static int getX(TextView casilla, TextView[][] casillas) {
+    public static int getX(Casilla casilla, Casilla[][] casillas) {
         for (int y = 0; y < Sudoku.TAMANO_TABLERO; y++) {
             for (int x = 0; x < Sudoku.TAMANO_TABLERO; x++) {
                 if (casillas[y][x].equals(casilla))
@@ -158,7 +157,7 @@ public class UtilTablero {
         return -1;
     }
 
-    public static int getY(TextView casilla, TextView[][] casillas) {
+    public static int getY(Casilla casilla, Casilla[][] casillas) {
         for (int y = 0; y < Sudoku.TAMANO_TABLERO; y++) {
             for (int x = 0; x < Sudoku.TAMANO_TABLERO; x++) {
                 if (casillas[y][x].equals(casilla))
@@ -169,9 +168,9 @@ public class UtilTablero {
         return -1;
     }
 
-    public static boolean hayCasillasLlenas(Set<TextView> casillas) {
-        for (TextView casilla : casillas) {
-            String numero = casilla.getText().toString();
+    public static boolean hayCasillasLlenas(Set<Casilla> casillas) {
+        for (Casilla casilla : casillas) {
+            String numero = casilla.getNumero();
             if (!Sudoku.VACIO.equals(numero))
                 return true;
         }
@@ -179,11 +178,11 @@ public class UtilTablero {
         return false;
     }
 
-    public static Map<String, Integer> contarNumeros(TextView[][] casillas) {
+    public static Map<String, Integer> contarNumeros(Casilla[][] casillas) {
         Map<String, Integer> numerosEscritos = new HashMap<>();
         for (int y = 0; y < Sudoku.TAMANO_TABLERO; y++) {
             for (int x = 0; x < Sudoku.TAMANO_TABLERO; x++) {
-                String numero = casillas[y][x].getText().toString();
+                String numero = casillas[y][x].getNumero();
                 if (!Sudoku.VACIO.equals(numero)) {
                     int cuenta = numerosEscritos.getOrDefault(numero, 0);
                     cuenta++;
@@ -195,7 +194,7 @@ public class UtilTablero {
         return numerosEscritos;
     }
 
-    public static Map<Integer, Boolean> contarNumerosPosibles(TextView[][] casillas, Set<TextView> casillasSeleccionadas) {
+    public static Map<Integer, Boolean> contarNumerosPosibles(Casilla[][] casillas, Set<Casilla> casillasSeleccionadas) {
         Map<Integer, Boolean> numerosPosibles = new HashMap<>();
         numerosPosibles.put(R.id.uno, true);
         numerosPosibles.put(R.id.dos, true);
@@ -209,7 +208,7 @@ public class UtilTablero {
 
         for (int y = 0; y < Sudoku.TAMANO_TABLERO; y++) {
             for (int x = 0; x < Sudoku.TAMANO_TABLERO; x++) {
-                TextView casilla = casillas[y][x];
+                Casilla casilla = casillas[y][x];
                 if (casillasSeleccionadas.contains(casilla)) {
                     contarFila(casillas, y, numerosPosibles);
                     contarColumna(casillas, x, numerosPosibles);
@@ -233,7 +232,7 @@ public class UtilTablero {
         return Integer.parseInt(coordenadas.split(SEPARADOR_COORDENADA)[1]);
     }
 
-    public static List<String> getCoordenadasVacias(TextView[][] tablero) {
+    public static List<String> getCoordenadasVacias(Casilla[][] tablero) {
         List<String> coordenadasVacias = new ArrayList<>();
         String[][] casillas = getTableroString(tablero);
 
@@ -248,9 +247,9 @@ public class UtilTablero {
         return coordenadasVacias;
     }
 
-    private static void contarFila(TextView[][] casillas, int y, Map<Integer, Boolean> numerosPosibles) {
+    private static void contarFila(Casilla[][] casillas, int y, Map<Integer, Boolean> numerosPosibles) {
         for (int x = 0; x < Sudoku.TAMANO_TABLERO; x++) {
-            String numero = casillas[y][x].getText().toString();
+            String numero = casillas[y][x].getNumero();
             if (!Sudoku.VACIO.equals(numero)) {
                 int id = getBotonNumero(numero);
                 numerosPosibles.put(id, false);
@@ -258,9 +257,9 @@ public class UtilTablero {
         }
     }
 
-    private static void contarColumna(TextView[][] casillas, int x, Map<Integer, Boolean> numerosPosibles) {
+    private static void contarColumna(Casilla[][] casillas, int x, Map<Integer, Boolean> numerosPosibles) {
         for (int y = 0; y < Sudoku.TAMANO_TABLERO; y++) {
-            String numero = casillas[y][x].getText().toString();
+            String numero = casillas[y][x].getNumero();
             if (!Sudoku.VACIO.equals(numero)) {
                 int id = getBotonNumero(numero);
                 numerosPosibles.put(id, false);
@@ -268,13 +267,13 @@ public class UtilTablero {
         }
     }
 
-    private static void contarCuadrante(TextView[][] casillas, int x, int y, Map<Integer, Boolean> numerosPosibles) {
+    private static void contarCuadrante(Casilla[][] casillas, int x, int y, Map<Integer, Boolean> numerosPosibles) {
         int fila = x - x % 3;
         int columna = y - y % 3;
 
         for (int i = columna; i < columna + Sudoku.TAMANO_CUADRANTE; i++) {
             for (int j = fila; j < fila + Sudoku.TAMANO_CUADRANTE; j++) {
-                String numero = casillas[i][j].getText().toString();
+                String numero = casillas[i][j].getNumero();
                 if (!Sudoku.VACIO.equals(numero)) {
                     int id = getBotonNumero(numero);
                     numerosPosibles.put(id, false);
@@ -317,19 +316,19 @@ public class UtilTablero {
         }
     }
 
-    private static void marcarFila(TextView[][] casillas, int y) {
+    private static void marcarFila(Casilla[][] casillas, int y) {
         for (int x = 0; x < Sudoku.TAMANO_TABLERO; x++) {
             casillas[y][x].setActivated(true);
         }
     }
 
-    private static void marcarColumna(TextView[][] casillas, int x) {
+    private static void marcarColumna(Casilla[][] casillas, int x) {
         for (int y = 0; y < Sudoku.TAMANO_TABLERO; y++) {
             casillas[y][x].setActivated(true);
         }
     }
 
-    private static void marcarCuadrante(TextView[][] casillas, int x, int y) {
+    private static void marcarCuadrante(Casilla[][] casillas, int x, int y) {
         int fila = x - x % 3;
         int columna = y - y % 3;
 

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,13 +27,15 @@ import es.rbp.sudoku.modelo.UtilTablero;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Set<TextView> casillasSeleccionadas;
+    private Set<Casilla> casillasSeleccionadas;
 
-    private TextView[][] casillas;
+    private Casilla[][] casillas;
 
     private GridLayout tablero;
 
     private Partida partida;
+
+    private boolean modoAnotar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,13 +47,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         partida = Partida.getInstance();
         if (partida == null)
-            partida = Partida.newInstance(Dificultad.FACIL);
+            partida = Partida.newInstance(Dificultad.FACIL, this);
+
+        casillas = partida.getCasillas();
+
+        modoAnotar = false;
 
         cargarTablero();
         cargarBotonesNumero();
         cargarBotonesAccion();
-        UtilTablero.limpiarSeleccionTablero(partida.getCasillas());
-        partida.init(this);
+        UtilTablero.limpiarSeleccionTablero(casillas);
+        partida.init();
     }
 
     @Override
@@ -64,8 +71,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         if (!casillasSeleccionadas.isEmpty()) {
             String numero = UtilTablero.getNumeroBoton(v.getId());
-            partida.escribir(casillasSeleccionadas, numero);
-            actualizarTablero();
+            if (modoAnotar)
+                partida.anotar(casillasSeleccionadas, numero);
+            else {
+                partida.escribir(casillasSeleccionadas, numero);
+                actualizarTablero();
+            }
         }
     }
 
@@ -110,8 +121,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String[][] tableroActual = partida.getTableroActual();
         for (int y = 0; y < Sudoku.TAMANO_TABLERO; y++) {
             for (int x = 0; x < Sudoku.TAMANO_TABLERO; x++) {
-                TextView casilla = casillas[y][x];
-                casilla.setText(tableroActual[y][x]);
+                Casilla casilla = casillas[y][x];
+                casilla.setNumero(tableroActual[y][x]);
             }
         }
     }
@@ -157,6 +168,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             lblNumPistas.setEnabled(false);
             lblNumPistas.setTextColor(ContextCompat.getColor(this, R.color.texto_azul_desactivado));
         }
+
+        ConstraintLayout btnAnotar = findViewById(R.id.btnAnotar);
+        btnAnotar.setOnClickListener(v -> {
+            modoAnotar = !modoAnotar;
+            btnAnotar.setSelected(modoAnotar);
+        });
+        btnAnotar.setSelected(modoAnotar);
     }
 
     private void cargarBotonesNumero() {
@@ -240,27 +258,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void cargarTablero() {
         tablero = findViewById(R.id.tablero);
 
-        casillas = new TextView[9][9];
-
         casillasSeleccionadas = new HashSet<>();
 
         tablero.removeAllViews();
-
-        for (int y = 0; y < 9; y++) {
-            for (int x = 0; x < 9; x++) {
-                TextView casillaNueva = partida.getCasilla(this, x, y);
+        for (int y = 0; y < Sudoku.TAMANO_TABLERO; y++) {
+            for (int x = 0; x < Sudoku.TAMANO_TABLERO; x++) {
+                Casilla casillaNueva = partida.getCasilla(x, y);
+                casillas[y][x] = casillaNueva;
                 if (casillaNueva.isEnabled()) {
-                    casillaNueva.setTextColor(ContextCompat.getColor(this, R.color.texto_azul));
+                    casillaNueva.setColorTexto(R.color.texto_azul);
                 } else {
                     casillaNueva.setClickable(true);
-                    casillaNueva.setTextColor(ContextCompat.getColor(this, R.color.negro));
+                    casillaNueva.setColorTexto(R.color.negro);
                     String coordenada = UtilTablero.getCoordenada(x, y);
                     if (partida.contienePista(coordenada))
-                        casillaNueva.setTextColor(ContextCompat.getColor(this, R.color.texto_pista));
+                        casillaNueva.setColorTexto(R.color.texto_pista);
                 }
+                float tamanoTexto = getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT ? 23 : 20;
+                casillaNueva.setTamanoTexto(tamanoTexto);
                 casillas[y][x] = casillaNueva;
                 casillaNueva.setOnClickListener(v -> {
-                    TextView casilla = (TextView) v;
+                    Casilla casilla = (Casilla) v;
                     if (casillasSeleccionadas.contains(casilla))
                         casillasSeleccionadas.remove(casilla);
                     else {
@@ -279,7 +297,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ViewParent padre = casillaNueva.getParent();
                 if (padre != null)
                     ((ViewGroup) padre).removeView(casillaNueva);
-
                 tablero.addView(casillaNueva);
             }
         }
@@ -295,7 +312,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 for (int y = 0; y < 9; y++) {
                     for (int x = 0; x < 9; x++) {
-                        TextView casilla = casillas[y][x];
+                        Casilla casilla = casillas[y][x];
                         GridLayout.LayoutParams params = (GridLayout.LayoutParams) casilla.getLayoutParams();
                         params.width = w;
                         params.height = h;

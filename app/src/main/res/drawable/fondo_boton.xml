@@ -5,4 +5,10 @@
             <solid android:color="@color/fondo_casilla_pulsado" />
         </shape>
     </item>
+
+    <item android:state_selected="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/fondo_casilla_pulsado" />
+        </shape>
+    </item>
 </selector>

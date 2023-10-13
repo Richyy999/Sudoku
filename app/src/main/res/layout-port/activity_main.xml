@@ -10,7 +10,6 @@
         android:id="@+id/crono"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:fontFamily="@font/mooli_regular"
         android:text="00:00"
         android:textColor="@color/texto_azul"
@@ -23,7 +22,7 @@
         android:id="@+id/tablero"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="16dp"
+        android:layout_margin="8dp"
         android:columnCount="9"
         android:rowCount="9"
         app:layout_constraintDimensionRatio="1:1"
@@ -42,11 +41,7 @@
 
     <LinearLayout
         android:id="@+id/layoutBotones"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:gravity="center"
-        android:orientation="horizontal"
+        style="@style/layout_botones"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tablero">
@@ -152,6 +147,15 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutBotones2"
+        style="@style/layout_botones"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutBotones">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/btnPista"
             style="@style/layout_boton">
@@ -200,6 +204,39 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/btnAnotar"
+            style="@style/layout_boton">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/iconoBotonAnotar"
+                    style="@style/imagen_boton"
+                    android:contentDescription="@string/desc_icono_anotar"
+                    android:src="@drawable/anotar"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    style="@style/texto_boton"
+                    android:text="@string/anotar"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/iconoBotonBorrar" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </LinearLayout>
 
     <LinearLayout
@@ -207,7 +244,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="64dp"
         android:gravity="center"
@@ -215,7 +252,7 @@
         android:weightSum="9"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutBotones">
+        app:layout_constraintTop_toBottomOf="@+id/layoutBotones2">
 
         <TextView
             android:id="@+id/uno"

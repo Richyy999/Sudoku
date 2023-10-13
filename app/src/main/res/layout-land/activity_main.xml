@@ -34,7 +34,6 @@
         android:id="@+id/crono"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:fontFamily="@font/mooli_regular"
         android:text="00:00"
         android:textColor="@color/texto_azul"
@@ -45,16 +44,10 @@
 
     <LinearLayout
         android:id="@+id/layoutBotones"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/layoutNumeros"
+        app:layout_constraintBottom_toTopOf="@+id/layoutBotones2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tablero">
+        app:layout_constraintStart_toEndOf="@+id/tablero"
+        style="@style/layout_botones_hotizontal">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/btnDeshacer"
@@ -80,7 +73,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    style="@style/texto_boton"
+                    style="@style/texto_boton_horizontal"
                     android:text="@string/deshacer"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -114,7 +107,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    style="@style/texto_boton"
+                    style="@style/texto_boton_horizontal"
                     android:text="@string/rehacer"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -148,12 +141,13 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    style="@style/texto_boton"
+                    style="@style/texto_boton_horizontal"
                     android:text="@string/borrar"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/iconoBotonBorrar" />
             </LinearLayout>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -181,7 +175,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    style="@style/texto_boton"
+                    style="@style/texto_boton_horizontal"
                     android:text="@string/pista"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -202,6 +196,48 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/btnAnotar"
+            style="@style/layout_boton_horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/iconoBotonAnotar"
+                    style="@style/imagen_boton_horizontal"
+                    android:contentDescription="@string/desc_icono_anotar"
+                    android:src="@drawable/anotar"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    style="@style/texto_boton_horizontal"
+                    android:text="@string/anotar"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/iconoBotonBorrar" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/layout_botones_hotizontal"
+        app:layout_constraintStart_toEndOf="@+id/tablero"
+        app:layout_constraintBottom_toTopOf="@+id/layoutNumeros"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/layoutBotones2">
 
     </LinearLayout>
 

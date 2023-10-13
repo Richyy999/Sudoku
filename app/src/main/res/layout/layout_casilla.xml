@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutAnotaciones"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="3dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/anotacion1"
+            style="@style/texto_anotaciones"
+            app:layout_constraintBottom_toBottomOf="@+id/anotacion2"
+            app:layout_constraintEnd_toEndOf="@id/anotacion4"
+            app:layout_constraintStart_toStartOf="@id/anotacion4"
+            app:layout_constraintTop_toTopOf="@id/anotacion2" />
+
+        <TextView
+            android:id="@+id/anotacion2"
+            style="@style/texto_anotaciones"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
+            app:layout_constraintBottom_toTopOf="@+id/anotacion5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/anotacion3"
+            style="@style/texto_anotaciones"
+            app:layout_constraintBottom_toBottomOf="@+id/anotacion2"
+            app:layout_constraintEnd_toEndOf="@id/anotacion6"
+            app:layout_constraintStart_toStartOf="@id/anotacion6"
+            app:layout_constraintTop_toTopOf="@id/anotacion2" />
+
+        <TextView
+            android:id="@+id/anotacion4"
+            style="@style/texto_anotaciones"
+            android:layout_marginEnd="6dp"
+            app:layout_constraintBottom_toBottomOf="@+id/anotacion5"
+            app:layout_constraintEnd_toStartOf="@id/anotacion5"
+            app:layout_constraintTop_toTopOf="@id/anotacion5" />
+
+        <TextView
+            android:id="@+id/anotacion5"
+            style="@style/texto_anotaciones"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/anotacion6"
+            style="@style/texto_anotaciones"
+            android:layout_marginStart="6dp"
+            app:layout_constraintBottom_toBottomOf="@+id/anotacion5"
+            app:layout_constraintStart_toEndOf="@id/anotacion5"
+            app:layout_constraintTop_toTopOf="@id/anotacion5" />
+
+        <TextView
+            android:id="@+id/anotacion7"
+            style="@style/texto_anotaciones"
+            app:layout_constraintBottom_toBottomOf="@+id/anotacion8"
+            app:layout_constraintEnd_toEndOf="@id/anotacion4"
+            app:layout_constraintStart_toStartOf="@id/anotacion4"
+            app:layout_constraintTop_toTopOf="@id/anotacion8" />
+
+        <TextView
+            android:id="@+id/anotacion8"
+            style="@style/texto_anotaciones"
+            android:layout_marginTop="1dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/anotacion5" />
+
+        <TextView
+            android:id="@+id/anotacion9"
+            style="@style/texto_anotaciones"
+            app:layout_constraintBottom_toBottomOf="@+id/anotacion8"
+            app:layout_constraintEnd_toEndOf="@id/anotacion6"
+            app:layout_constraintStart_toStartOf="@id/anotacion6"
+            app:layout_constraintTop_toTopOf="@id/anotacion8" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/numeroCasilla"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/mooli_regular"
+        android:freezesText="true"
+        android:gravity="center"
+        android:textColor="@color/texto_azul"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,4 +14,5 @@
     <color name="texto_azul_oscuro">#101284</color>
     <color name="texto_azul_desactivado">#9499AB</color>
     <color name="texto_pista">#E6D207</color>
+    <color name="texto_anotaciones">#1E20B3</color>
 </resources>

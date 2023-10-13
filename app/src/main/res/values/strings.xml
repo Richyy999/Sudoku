@@ -17,4 +17,6 @@
     <string name="pista">Pista</string>
     <string name="desc_icono_pista">Icono de pista</string>
     <string name="desc_icono_borrar">Icono de borrar</string>
+    <string name="anotar">Anotar</string>
+    <string name="desc_icono_anotar">Icono de anotar</string>
 </resources>
