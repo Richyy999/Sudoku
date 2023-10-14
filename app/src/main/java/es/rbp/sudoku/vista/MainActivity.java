@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
@@ -20,7 +21,6 @@ import java.util.Map;
 import java.util.Set;
 
 import es.rbp.sudoku.R;
-import es.rbp.sudoku.entidad.Dificultad;
 import es.rbp.sudoku.entidad.Sudoku;
 import es.rbp.sudoku.modelo.Partida;
 import es.rbp.sudoku.modelo.UtilTablero;
@@ -46,8 +46,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getWindow().setStatusBarColor(getColor(android.R.color.transparent));
 
         partida = Partida.getInstance();
-        if (partida == null)
-            partida = Partida.newInstance(Dificultad.FACIL, this);
+
+        if (partida == null) {
+            Intent intent = new Intent(this, Inicio.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
 
         casillas = partida.getCasillas();
 
@@ -114,7 +119,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         partida.setTableroActual(UtilTablero.getTableroString(casillas));
 
         if (partida.validarSudoku(UtilTablero.getTableroString(casillas)))
-            Toast.makeText(this, "Sudoku resuelto", Toast.LENGTH_SHORT).show();
+            victoria();
+    }
+
+    private void victoria() {
+        partida.terminarPartida();
+        Toast.makeText(this, "Sudoku resuelto", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(this, Inicio.class);
+        startActivity(intent);
+        finish();
     }
 
     private void pintarTablero() {
@@ -173,6 +186,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnAnotar.setOnClickListener(v -> {
             modoAnotar = !modoAnotar;
             btnAnotar.setSelected(modoAnotar);
+            if (!modoAnotar)
+                UtilTablero.limpiarSeleccionTablero(casillas);
         });
         btnAnotar.setSelected(modoAnotar);
     }

@@ -19,4 +19,8 @@
     <string name="desc_icono_borrar">Icono de borrar</string>
     <string name="anotar">Anotar</string>
     <string name="desc_icono_anotar">Icono de anotar</string>
+    <string name="facil">Fácil</string>
+    <string name="medio">Medio</string>
+    <string name="dificil">Difícil</string>
+    <string name="cargando">Cargando…</string>
 </resources>

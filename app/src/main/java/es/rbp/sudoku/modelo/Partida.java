@@ -44,10 +44,8 @@ public class Partida {
         this.sudoku = Sudoku.newInstance(context);
     }
 
-    public static Partida newInstance(Dificultad dificultad, Context context) {
+    public static void newInstance(Dificultad dificultad, Context context) {
         partida = new Partida(dificultad, context);
-
-        return partida;
     }
 
     public static Partida getInstance() {
@@ -145,6 +143,10 @@ public class Partida {
         return this.sudoku.validarSudoku(sudoku);
     }
 
+    public void terminarPartida() {
+        partida = null;
+    }
+
     public String[][] getTableroActual() {
         return tableroActual;
     }
@@ -162,7 +164,7 @@ public class Partida {
     }
 
     public boolean seleccionMultiple() {
-        return false;
+        return true;
     }
 
     public boolean isMostrarNumerosValidos() {

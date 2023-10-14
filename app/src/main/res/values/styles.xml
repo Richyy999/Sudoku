@@ -17,7 +17,7 @@
         <item name="android:layout_width">76dp</item>
         <item name="android:layout_height">64dp</item>
         <item name="android:layout_weight">0</item>
-        <item name="android:textSize">40dp</item>
+        <item name="android:textSize">40sp</item>
     </style>
 
     <style name="layout_boton">
@@ -83,5 +83,13 @@
         <item name="android:layout_marginBottom">8dp</item>
         <item name="android:gravity">center</item>
         <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="boton_menu">
+        <item name="android:background">@drawable/fondo_boton_menu</item>
+        <item name="android:layout_width">96dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_height">32dp</item>
+        <item name="android:textColor">@color/texto_azul</item>
     </style>
 </resources>

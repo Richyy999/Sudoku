@@ -4,9 +4,9 @@ public class Dificultad {
 
     public static final Dificultad FACIL = new Dificultad(9, 45, true);
 
-    public static final Dificultad MEDIO = new Dificultad(5, 30, true);
+    public static final Dificultad MEDIO = new Dificultad(5, 33, true);
 
-    public static final Dificultad DIFICIL = new Dificultad(3, 20, false);
+    public static final Dificultad DIFICIL = new Dificultad(3, 22, false);
 
     private final int numPistas;
     private final int numCasillasIniciales;

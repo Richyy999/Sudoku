@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".vista.Inicio">
+
+    <TextView
+        android:id="@+id/btnFacil"
+        android:text="@string/facil"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnMedio"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        style="@style/boton_menu" />
+
+    <TextView
+        android:id="@+id/btnMedio"
+        style="@style/boton_menu"
+        android:text="@string/medio"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/btnDificil"
+        style="@style/boton_menu"
+        android:layout_marginTop="16dp"
+        android:text="@string/dificil"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnMedio" />
+
+    <LinearLayout
+        android:visibility="invisible"
+        android:id="@+id/layoutCargando"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:background="@drawable/fondo_cargando"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:progressTint="@color/texto_azul" />
+
+        <TextView
+            style="@style/texto_boton"
+            android:layout_marginTop="8dp"
+            android:text="@string/cargando" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
